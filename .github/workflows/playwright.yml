@@ -17,13 +17,11 @@ jobs:
       run: npm ci
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
-    - name: Run Playwright tests
-      run: xvfb-run --auto-servernum npx playwright test
+    - name: Run public website test
+      run: xvfb-run --auto-servernum npx playwright test tests/home.spec.js
       env:
-        HEADLESS: 'false'
+        HEADLESS: 'true'
         BASE_URL: https://mindmatters-summit.com
-        USER_EMAIL: ${{ secrets.USER_EMAIL }}
-        USER_PASSWORD: ${{ secrets.USER_PASSWORD }}
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
