@@ -1,0 +1,21 @@
+{
+  "name": "mindmattersautomation",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "monitor:payment": "node monitor/payment-monitor.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@playwright/test": "^1.62.1",
+    "@types/node": "^26.2.0"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "nodemailer": "^7.0.6"
+  }
+}
