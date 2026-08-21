@@ -100,7 +100,7 @@ module.exports = defineConfig({
 
         baseURL: process.env.BASE_URL,
 
-        headless: true,
+        headless: process.env.HEADLESS !== 'false',
 
         screenshot: 'only-on-failure',
 
