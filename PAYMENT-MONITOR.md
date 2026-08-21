@@ -62,4 +62,6 @@ The first failed check sends an incident email. Further failures send nothing wh
 
 The included workflow runs only `tests/ticket-booking.spec.js` every two hours and can be started manually from the Actions tab. Add the variables as repository Actions secrets using the names in the workflow. GitHub-hosted runners are free within GitHub's included usage limits.
 
+To test alerts entirely on GitHub, open **Actions -> Payment gateway monitor -> Run workflow**. Select `simulate_failure: true` and run it. Confirm the incident email arrives. Then run the workflow again with `simulate_failure: false`; the real ticket-booking check will run and should send the recovery email. Do not enable simulation for normal scheduled runs.
+
 The workflow uses GitHub Actions cache to carry the state file between runs, so failure deduplication and recovery notifications continue to work across temporary runners. A persistent server cron remains an alternative if you already have a server.
