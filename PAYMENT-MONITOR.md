@@ -7,7 +7,7 @@ The monitor runs the existing ticket-booking test through the PayFast page. It s
 Copy the values below into the server's environment or a local `.env` file. Do not commit credentials.
 
 ```text
-BASE_URL=https://your-site.example
+BASE_URL=https://mindmatters-summit.com
 USER_EMAIL=monitor-user@example.com
 USER_PASSWORD=your-password
 SMTP_HOST=smtp.gmail.com

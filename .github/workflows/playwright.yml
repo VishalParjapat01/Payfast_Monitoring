@@ -21,7 +21,7 @@ jobs:
       run: xvfb-run --auto-servernum npx playwright test
       env:
         HEADLESS: 'false'
-        BASE_URL: ${{ secrets.BASE_URL }}
+        BASE_URL: https://mindmatters-summit.com
         USER_EMAIL: ${{ secrets.USER_EMAIL }}
         USER_PASSWORD: ${{ secrets.USER_PASSWORD }}
     - uses: actions/upload-artifact@v4
