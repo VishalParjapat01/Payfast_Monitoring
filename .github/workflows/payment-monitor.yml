@@ -40,7 +40,8 @@ jobs:
           path: .payment-monitor-state.json
           key: payment-monitor-state-${{ github.run_id }}
           restore-keys: payment-monitor-state-
-      - run: xvfb-run --auto-servernum npm run monitor:payment
+      - name: Run ticket-booking payment check
+        run: xvfb-run --auto-servernum npm run monitor:payment
         env:
           HEADLESS: 'false'
           BASE_URL: https://mindmatters-summit.com
