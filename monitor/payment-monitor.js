@@ -159,15 +159,17 @@ async function sendEmail(subject, text) {
 
     try {
         const transport = createTransport();
+        await transport.verify();
         await transport.sendMail({
             from: requiredEnvironment('ALERT_FROM'),
             to: requiredEnvironment('ALERT_TO'),
             subject,
             text
         });
-        console.log(`Alert email sent to: ${process.env.ALERT_TO}`);
+        console.log(`Alert email accepted by SMTP for: ${process.env.ALERT_TO}`);
     } catch (error) {
         console.error(`Unable to send alert email: ${error.message}`);
+        throw error;
     }
 }
 
