@@ -28,13 +28,14 @@ jobs:
         env:
           USER_EMAIL: ${{ secrets.USER_EMAIL }}
           USER_PASSWORD: ${{ secrets.USER_PASSWORD }}
+          TEST_ACCESS_TOKEN: ${{ secrets.TEST_ACCESS_TOKEN }}
           SMTP_HOST: ${{ secrets.SMTP_HOST }}
           SMTP_USER: ${{ secrets.SMTP_USER }}
           SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
           ALERT_FROM: ${{ secrets.ALERT_FROM }}
           ALERT_TO: ${{ secrets.ALERT_TO }}
         run: |
-          for variable in USER_EMAIL USER_PASSWORD SMTP_HOST SMTP_USER SMTP_PASSWORD ALERT_FROM ALERT_TO; do
+          for variable in USER_EMAIL USER_PASSWORD TEST_ACCESS_TOKEN SMTP_HOST SMTP_USER SMTP_PASSWORD ALERT_FROM ALERT_TO; do
             if [ -z "${!variable}" ]; then
               echo "Missing GitHub Actions secret: $variable"
               exit 1
@@ -46,7 +47,7 @@ jobs:
           path: .payment-monitor-state.json
           key: payment-monitor-state-${{ github.run_id }}
           restore-keys: payment-monitor-state-
-      - name: Run ticket-booking payment check
+      - name: Run API payment check
         run: xvfb-run --auto-servernum npm run monitor:payment
         env:
           HEADLESS: 'false'
@@ -55,6 +56,7 @@ jobs:
           BASE_URL: https://mindmatters-summit.com
           USER_EMAIL: ${{ secrets.USER_EMAIL }}
           USER_PASSWORD: ${{ secrets.USER_PASSWORD }}
+          TEST_ACCESS_TOKEN: ${{ secrets.TEST_ACCESS_TOKEN }}
           SMTP_HOST: ${{ secrets.SMTP_HOST }}
           SMTP_PORT: ${{ secrets.SMTP_PORT }}
           SMTP_SECURE: ${{ secrets.SMTP_SECURE }}

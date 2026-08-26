@@ -1,6 +1,6 @@
 # Payment monitor
 
-The monitor runs the existing ticket-booking test through the PayFast page. It stores the last result in `.payment-monitor-state.json`.
+The monitor runs `tests/ticket-api-payment.spec.js` through the PayFast page every two hours. It stores the last result in `.payment-monitor-state.json`.
 
 ## Local or server setup
 
@@ -8,8 +8,17 @@ Copy the values below into the server's environment or a local `.env` file. Do n
 
 ```text
 BASE_URL=https://mindmatters-summit.com
-USER_EMAIL=monitor-user@example.com
+USER_EMAIL=your-test-user@example.com
 USER_PASSWORD=your-password
+TEST_ACCESS_TOKEN=your-current-access-token
+TEST_USER_NAME=Your Name
+TEST_COMPANY_NAME=Your Company
+TEST_JOB_TITLE=Your Job Title
+TEST_PHONE=+27000000000
+TEST_COUNTRY=South Africa
+TEST_VAT_NUMBER=
+TEST_MEDICAL_REG_NUMBER=
+TEST_IS_MULTIPLY_MEMBER=
 SMTP_HOST=smtp.gmail.com
 SMTP_PORT=587
 SMTP_SECURE=false
@@ -60,8 +69,8 @@ The first failed check sends an incident email. Further failures send nothing wh
 
 ## GitHub Actions option
 
-The included workflow runs only `tests/ticket-booking.spec.js` every two hours and can be started manually from the Actions tab. Add the variables as repository Actions secrets using the names in the workflow. GitHub-hosted runners are free within GitHub's included usage limits.
+The included workflow runs only `tests/ticket-api-payment.spec.js` every two hours and can be started manually from the Actions tab. Add these as repository Actions secrets: `USER_EMAIL`, `USER_PASSWORD`, `TEST_ACCESS_TOKEN`, `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE`, `SMTP_USER`, `SMTP_PASSWORD`, `ALERT_FROM`, and `ALERT_TO`. GitHub-hosted runners are free within GitHub's included usage limits.
 
-To test alerts entirely on GitHub, open **Actions -> Payment gateway monitor -> Run workflow**. Select `simulate_failure: true` and run it. Confirm the incident email arrives and the log says `Alert email accepted by SMTP`. Then run the workflow again with `simulate_failure: false`; the real ticket-booking check will run and should send the recovery email. Do not enable simulation for normal scheduled runs. Also check Gmail Spam/Promotions if the SMTP-accepted message is not in the inbox.
+To test alerts entirely on GitHub, open **Actions -> Payment gateway monitor -> Run workflow**. Select `simulate_failure: true` and run it. Confirm the incident email arrives and the log says `Alert email accepted by SMTP`. Then run the workflow again with `simulate_failure: false`; the real API payment check will run and should send the recovery email. Do not enable simulation for normal scheduled runs. Also check Gmail Spam/Promotions if the SMTP-accepted message is not in the inbox.
 
 The workflow uses GitHub Actions cache to carry the state file between runs, so failure deduplication and recovery notifications continue to work across temporary runners. A persistent server cron remains an alternative if you already have a server.

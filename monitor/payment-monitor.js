@@ -38,6 +38,11 @@ function writeState(status, details) {
     fs.renameSync(temporaryFile, stateFile);
 }
 
+function clearState() {
+    fs.rmSync(stateFile, { force: true });
+    fs.rmSync(`${stateFile}.tmp`, { force: true });
+}
+
 function requiredEnvironment(name) {
     if (!process.env[name]) {
         throw new Error(`Missing required environment variable: ${name}`);
@@ -85,9 +90,9 @@ async function verifyPaymentPage() {
 
         const paymentPage = new PaymentReviewPage(signInTab);
         await paymentPage.verifyPage();
-        await paymentPage.clickProceedToPay();
+        const payFastTab = await paymentPage.clickProceedToPay();
 
-        const payFastPage = new PayFastPage(signInTab);
+        const payFastPage = new PayFastPage(payFastTab);
         await payFastPage.paymentTotalLabel.waitFor({
             state: 'visible',
             timeout: 15000
@@ -115,7 +120,7 @@ async function runPaymentTest() {
         const result = await execFileAsync(command, [
             'playwright',
             'test',
-            'tests/ticket-booking.spec.js',
+            'tests/ticket-api-payment.spec.js',
             '--project=chromium',
             '--reporter=line'
         ], {
@@ -200,6 +205,9 @@ async function main() {
         }
 
         process.exitCode = 1;
+    } finally {
+        clearState();
+        console.log(`Cleared monitor cache: ${stateFile}`);
     }
 }
 
