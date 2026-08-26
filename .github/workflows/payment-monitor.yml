@@ -27,7 +27,6 @@ jobs:
         shell: bash
         env:
           USER_EMAIL: ${{ secrets.USER_EMAIL }}
-          USER_PASSWORD: ${{ secrets.USER_PASSWORD }}
           TEST_ACCESS_TOKEN: ${{ secrets.TEST_ACCESS_TOKEN }}
           SMTP_HOST: ${{ secrets.SMTP_HOST }}
           SMTP_USER: ${{ secrets.SMTP_USER }}
@@ -35,7 +34,7 @@ jobs:
           ALERT_FROM: ${{ secrets.ALERT_FROM }}
           ALERT_TO: ${{ secrets.ALERT_TO }}
         run: |
-          for variable in USER_EMAIL USER_PASSWORD TEST_ACCESS_TOKEN SMTP_HOST SMTP_USER SMTP_PASSWORD ALERT_FROM ALERT_TO; do
+          for variable in USER_EMAIL TEST_ACCESS_TOKEN SMTP_HOST SMTP_USER SMTP_PASSWORD ALERT_FROM ALERT_TO; do
             if [ -z "${!variable}" ]; then
               echo "Missing GitHub Actions secret: $variable"
               exit 1
@@ -55,7 +54,6 @@ jobs:
           SIMULATE_FAILURE: ${{ github.event_name == 'workflow_dispatch' && inputs.simulate_failure || 'false' }}
           BASE_URL: https://mindmatters-summit.com
           USER_EMAIL: ${{ secrets.USER_EMAIL }}
-          USER_PASSWORD: ${{ secrets.USER_PASSWORD }}
           TEST_ACCESS_TOKEN: ${{ secrets.TEST_ACCESS_TOKEN }}
           SMTP_HOST: ${{ secrets.SMTP_HOST }}
           SMTP_PORT: ${{ secrets.SMTP_PORT }}
